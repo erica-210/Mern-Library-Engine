@@ -18,7 +18,7 @@ const server = new ApolloServer({
 });
 
 // Middleware setup
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 // Serve static assets if in production
@@ -35,9 +35,8 @@ if (process.env.NODE_ENV === 'production') {
 const startApolloServer = async (typeDefs, resolvers) => {
   await server.start(); // Start Apollo Server
 
-  // Apply middleware for GraphQL endpoint
-  app.use('/graphql', expressMiddleware(server));
-
+  server.applyMiddleware({ app });
+  
   // Start Express server
   db.once('open', () => {
     app.listen(PORT, () => {
