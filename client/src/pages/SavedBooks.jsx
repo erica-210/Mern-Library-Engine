@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Jumbotron,
   Container,
   CardColumns,
   Card,
@@ -49,11 +48,11 @@ const SavedBooks = () => {
 
   return (
     <>
-      <Jumbotron fluid className="text-light bg-dark">
+      <div className="text-light bg-dark jumbotron jumbotron-fluid">
         <Container>
           <h1>Viewing saved books!</h1>
         </Container>
-      </Jumbotron>
+      </div>
       <Container>
         <h2>
           {userData.savedBooks.length
