@@ -1,6 +1,7 @@
 // Import required modules and dependencies
 const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
+const { expressMiddleware } = require('@apollo/server/express4');
 const path = require('path');
 const { authMiddleware } = require('./utils/auth');
 const { typeDefs, resolvers } = require('./schemas');
@@ -37,11 +38,13 @@ const startApolloServer = async () => {
 
   server.applyMiddleware({ app });
 
+  app.use('/graphql', expressMiddleware(server));
+
   // Start Express server
   db.once("open", () => {
     app.listen(PORT, () => {
       console.log(`Server now running on port ${PORT}!`);
-      console.log(`Use GraphQL at http://localhost:${PORT}${server.graphqlPath}`)
+      console.log(`Use GraphQL at http://localhost:${PORT}/graphql`)
     });
   });
 };
