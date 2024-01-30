@@ -38,9 +38,13 @@ const startApolloServer = async () => {
   server.applyMiddleware({ app });
 
   // Start Express server
-  app.listen(PORT, () => {
-    console.log(`🌍 Now listening on localhost:${PORT}`);
+  db.once("open", () => {
+    app.listen(PORT, () => {
+      console.log(`Server now running on port ${PORT}!`);
+      console.log(`Use GraphQL at http://localhost:${PORT}${server.graphqlPath}`)
+    });
   });
+};
 };
 
 // Call the async function to start the server
