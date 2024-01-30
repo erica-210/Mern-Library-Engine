@@ -1,7 +1,7 @@
 // Import required modules and dependencies
 const express = require('express');
-const { ApolloServer } = require('apollo-server-express');
-const { expressMiddleware } = require('@apollo/server/express4');
+const { ApolloServer } = require('@apollo/server');
+const { expressMiddleware } = require('apollo-server-express');
 const path = require('path');
 const { authMiddleware } = require('./utils/auth');
 const { typeDefs, resolvers } = require('./schemas');
@@ -18,6 +18,12 @@ const server = new ApolloServer({
   context: authMiddleware, // Authentication middleware
 });
 
+
+
+// Start Apollo Server
+const startApolloServer = async () => {
+  await server.start(); // Start Apollo Server
+
 // Middleware setup
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -32,11 +38,6 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-// Start Apollo Server
-const startApolloServer = async () => {
-  await server.start(); // Start Apollo Server
-
-  server.applyMiddleware({ app });
 
   app.use('/graphql', expressMiddleware(server));
 
